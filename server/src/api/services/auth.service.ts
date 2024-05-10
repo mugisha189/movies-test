@@ -2,7 +2,6 @@ import bcrypt from "bcryptjs";
 import User from "../models/User";
 import APIError from "../helpers/APIError";
 import status from "http-status";
-import { NewUser } from "../interfaces/User";
 import {
   Payload,
   createAccessToken,
@@ -59,26 +58,8 @@ const refreshToken = async (token: string) => {
   };
 };
 
-const register = async (body: NewUser) => {
-  // Create a new user
-  const user = await userService.createUser(body);
-
-  // Generate access and refresh tokens
-  return {
-    accessToken: createAccessToken({
-      id: user._id.toString(),
-      email: user.email,
-    }),
-    refreshToken: createRefreshToken({
-      id: user._id.toString(),
-      email: user.email,
-    }),
-    user: user,
-  };
-};
 
 export default {
   login,
-  register,
   refreshToken,
 };

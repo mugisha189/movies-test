@@ -11,15 +11,6 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const register = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const { body } = req;
-    const account = await authService.register(body);
-    res.status(status.CREATED).json(account);
-  } catch (err) {
-    next(err);
-  }
-};
 
 const refreshToken = async (
   req: Request,
@@ -37,6 +28,5 @@ const refreshToken = async (
 
 export default {
   login,
-  register,
   refreshToken,
 };
