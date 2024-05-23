@@ -5,11 +5,13 @@ import Button from "../core/button";
 import { useModal } from "../../hooks/useModal";
 import { Movie } from "../../utils/types/movie";
 import { deleteMovie } from "../../utils/funcs/movie";
+import { useTranslation } from "react-i18next";
 
 const DeleteMovie: React.FC<{ movie: Movie; onClose: () => void }> = ({
   movie,
   onClose,
 }) => {
+  const { t } = useTranslation();
   const { closeModal } = useModal();
   const [loading, setLoading] = useState(false);
 
@@ -18,15 +20,13 @@ const DeleteMovie: React.FC<{ movie: Movie; onClose: () => void }> = ({
       <div className="text-red-700">
         <MdDeleteOutline className="h-16 w-16" />
       </div>
-      <p className="text-xl text-center">Are you sure ?</p>
+      <p className="text-xl text-center">{t("deleteConfirmation")}</p>
       <p className="text-sm text-center text-gray-100 mt-2">
-        Deleting <span className="text-primary">{movie.title}</span> will remove
-        all associated data and actions. This action cannot be undone. Please
-        ensure you want to proceed.
+        {t("deleteMessage", { movieTitle: movie.title })}
       </p>
       <div className="flex items-center gap-2 mt-4">
         <Button variant="secondary" onClick={closeModal} className="text-sm">
-          Cancel
+          {t("cancel")}
         </Button>
         <Button
           variant="primary"
@@ -38,7 +38,7 @@ const DeleteMovie: React.FC<{ movie: Movie; onClose: () => void }> = ({
             setLoading(false);
           }}
         >
-          Delete
+          {t("delete")}
         </Button>
       </div>
     </div>

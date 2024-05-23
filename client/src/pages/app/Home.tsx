@@ -12,17 +12,20 @@ import { useNavigate } from "react-router-dom";
 import { useUser } from "../../hooks/useUser";
 import { useModal } from "../../hooks/useModal";
 import DeleteMovie from "../../components/movies/DeleteMovie";
+import { useTranslation } from "react-i18next";
+
 const Home: React.FC = () => {
+  const { t } = useTranslation(); // Use the t function for localization
   const { data: movies, loading, error, refetch } = useGet<Movie[]>("/movie");
   const navigate = useNavigate();
   const { logout } = useUser();
-  const { openModal } = useModal();
+  const { openModal, closeModal } = useModal();
 
   return (
     <div className="p-10 text-white h-screen w-screen overflow-hidden overflow-y-auto">
       <div className="flex items-center justify-between mb-10">
         <div className="flex items-center gap-5">
-          <p className="text-3xl font-bold">My Movies</p>
+          <p className="text-3xl font-bold">{t("myMovies")}</p>
           <IoAddCircleOutline
             onClick={() => navigate("/add")}
             className="w-7 h-7 cursor-pointer"
@@ -32,7 +35,7 @@ const Home: React.FC = () => {
           className="flex items-center gap-2 cursor-pointer"
           onClick={logout}
         >
-          <p className="text-lg font-semibold">Logout</p>
+          <p className="text-lg font-semibold">{t("logout")}</p>
           <IoExitOutline className="w-8 h-8" />
         </div>
       </div>
@@ -43,7 +46,7 @@ const Home: React.FC = () => {
             .map((_, index) => (
               <div
                 key={index}
-                className="bg-cardColor  p-2 rounded-2xl shadow animate-pulse"
+                className="bg-cardColor p-2 rounded-2xl shadow animate-pulse"
               >
                 <div className="bg-inputColor h-72 rounded-2xl"></div>
                 <div className="mt-4">
@@ -57,28 +60,34 @@ const Home: React.FC = () => {
 
       {error && (
         <div className="text-center py-20">
-          <p className="text-red-500 mb-4">{error.message}</p>
+          <p className="text-red-500 mb-4 text-xl font-semibold">
+            {t("fetchErrorTitle")}
+          </p>
+          <p className="text-gray-300 mb-6 text-center w-full md:w-[70%] lg:w-[50%] text-sm">
+            {t("fetchErrorDescription")}
+          </p>
           <Button
             variant="primary"
             onClick={refetch}
             className="bg-primary text-white px-4 py-2 rounded-lg"
           >
-            Refresh
+            {t("refreshButton")}
           </Button>
         </div>
       )}
 
       {!loading && !error && movies?.length === 0 && (
-        <div className="flex items-center justify-center flex-col h-full ">
-          <p className="text-3xl  mb-4 font-bold">
-            You have no movies on your list
+        <div className="flex items-center justify-center flex-col h-full">
+          <p className="text-3xl mb-4 font-bold">{t("emptyMoviesTitle")}</p>
+          <p className="text-gray-300 mb-6 text-center w-full md:w-[70%] lg:w-[50%] text-sm">
+            {t("emptyMoviesDescription")}
           </p>
           <Button
             variant="primary"
             onClick={() => navigate("/add")}
             className="bg-primary text-white px-4 py-2 rounded-lg"
           >
-            <IoAddCircle className="inline mr-2" /> Add Movie
+            <IoAddCircle className="inline mr-2" /> {t("addMovieButton")}
           </Button>
         </div>
       )}
@@ -88,7 +97,7 @@ const Home: React.FC = () => {
           {movies.map((movie) => (
             <div
               key={movie.id}
-              className="bg-cardColor  p-2 rounded-2xl shadow flex flex-col items-center"
+              className="bg-cardColor p-2 rounded-2xl shadow flex flex-col items-center z-20"
             >
               <img
                 src={movie.image}
@@ -104,15 +113,23 @@ const Home: React.FC = () => {
                   onClick={() => {
                     navigate(`/edit/${movie.id}`);
                   }}
-                  className="text-blue-500  p-2  border border-blue-500 rounded-full cursor-pointer"
+                  className="text-blue-500 p-2 border border-blue-500 rounded-full cursor-pointer"
                 >
                   <FaEdit />
                 </button>
                 <button
                   onClick={() => {
-                    openModal(<DeleteMovie movie={movie} onClose={refetch} />);
+                    openModal(
+                      <DeleteMovie
+                        movie={movie}
+                        onClose={() => {
+                          closeModal();
+                          refetch();
+                        }}
+                      />
+                    );
                   }}
-                  className="text-red-500  p-2  border border-red-500 rounded-full cursor-pointer"
+                  className="text-red-500 p-2 border border-red-500 rounded-full cursor-pointer"
                 >
                   <FaTrash />
                 </button>

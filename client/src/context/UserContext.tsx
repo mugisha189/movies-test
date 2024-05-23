@@ -74,7 +74,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         if (tokenTimestamp && isTokenExpired(Number(tokenTimestamp))) {
           const newAccessToken = await refreshAccessToken();
           if (!newAccessToken) {
-            navigate("/auth/login");
+            navigate("/login");
           } else {
             setUser(JSON.parse(storedUser));
           }
@@ -139,7 +139,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     Cookies.remove("accessToken");
     Cookies.remove("refreshToken");
     Cookies.remove("tokenTimestamp");
-    navigate("/auth/login");
+    navigate("/login");
   };
 
   if (loading) {

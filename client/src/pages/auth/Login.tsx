@@ -1,11 +1,12 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import Button from "../../components/core/button";
 import { useUser } from "../../hooks/useUser";
 import InputField from "../../components/core/input";
 import { LoginFormValues } from "../../utils/types/forms";
 
 const Login: React.FC = () => {
+  const { t } = useTranslation(); // Use the t function for localization
   const { login } = useUser();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -22,16 +23,15 @@ const Login: React.FC = () => {
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
     if (!values.email) {
-      errors.email = "Email is required";
+      errors.email = t("emailRequired");
     } else if (!emailRegex.test(values.email)) {
-      errors.email = "Invalid email format";
+      errors.email = t("invalidEmailFormat");
     }
 
     if (!values.password) {
-      errors.password = "Password is required";
+      errors.password = t("passwordRequired");
     } else if (!passwordRegex.test(values.password)) {
-      errors.password =
-        "Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character";
+      errors.password = t("invalidPasswordFormat");
     }
 
     return errors;
@@ -59,13 +59,8 @@ const Login: React.FC = () => {
     <div className="w-full h-full flex items-center justify-center text-white">
       <div className="w-full px-[5vw] md:w-[80%] lg:w-[40%] transition-all duration-200">
         <div className="mb-5 text-center space-y-3">
-          <p className="text-3xl font-extrabold text-white">Sign In</p>
-          <p className="text-xs text-left text-gray-200">
-            Welcome back! Please enter your credentials to access your account.
-            If you encounter any issues, feel free to reach out to our support
-            team for assistance. Your privacy and security are our top
-            priorities.
-          </p>
+          <p className="text-3xl font-extrabold text-white">{t("signIn")}</p>
+          <p className="text-xs text-left text-gray-200">{t("welcomeBack")}</p>
         </div>
         <form onSubmit={handleSubmit}>
           <div className="my-3">
@@ -76,7 +71,7 @@ const Login: React.FC = () => {
                 setEmail(e.target.value);
                 setEmailError("");
               }}
-              placeholder="Email"
+              placeholder={t("emailPlaceholder")}
               error={emailError}
             />
           </div>
@@ -88,7 +83,7 @@ const Login: React.FC = () => {
                 setPassword(e.target.value);
                 setPasswordError("");
               }}
-              placeholder="Password"
+              placeholder={t("passwordPlaceholder")}
               error={passwordError}
             />
           </div>
@@ -101,17 +96,17 @@ const Login: React.FC = () => {
               className="bg-inputColor"
             />
             <label htmlFor="rememberMe" className="text-sm">
-              Remember Me
+              {t("rememberMe")}
             </label>
           </div>
           <div className="mt-5">
             <Button
               variant="primary"
               type="submit"
-              className="w-full "
+              className="w-full"
               loading={isSubmitting}
             >
-              <p className="px-10 font-bold">Log In</p>
+              <p className="px-10 font-bold">{t("login")}</p>
             </Button>
           </div>
         </form>

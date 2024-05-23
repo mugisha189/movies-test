@@ -6,6 +6,7 @@ import { Movie } from "../../utils/types/movie";
 import { createMovie, updateMovie } from "../../utils/funcs/movie";
 import InputField from "../core/input";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 interface CreateUpdateMovieProps {
   defaultData?: Movie | null;
@@ -14,6 +15,7 @@ interface CreateUpdateMovieProps {
 const CreateUpdateMovie: React.FC<CreateUpdateMovieProps> = ({
   defaultData,
 }) => {
+  const { t } = useTranslation();
   const [title, setTitle] = useState(defaultData?.title || "");
   const [publishingYear, setPublishingYear] = useState(
     defaultData?.publishingYear || ""
@@ -33,15 +35,16 @@ const CreateUpdateMovie: React.FC<CreateUpdateMovieProps> = ({
 
   const validateInputs = () => {
     const newErrors = {
-      title: !title ? "Title is required." : "",
-      publishingYear: !publishingYear ? "Publishing Year is required." : "",
-      image: !image ? "Image is required." : "",
+      title: !title ? t("titleRequired") : "",
+      publishingYear: !publishingYear ? t("publishingYearRequired") : "",
+      image: !image ? t("imageRequired") : "",
     };
 
     setErrors(newErrors);
 
     return !Object.values(newErrors).some((error) => error);
   };
+
   const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -72,9 +75,7 @@ const CreateUpdateMovie: React.FC<CreateUpdateMovieProps> = ({
       navigate("/");
     } catch (error) {
       console.error("An error occurred:", error);
-      toast.error(
-        "An error occurred while saving the movie. Please try again."
-      );
+      toast.error(t("saveError"));
     } finally {
       setLoading(false);
     }
@@ -83,21 +84,21 @@ const CreateUpdateMovie: React.FC<CreateUpdateMovieProps> = ({
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex  justify-between flex-col md:flex-row w-full gap-10"
+      className="flex justify-between flex-col md:flex-row w-full gap-10"
     >
-      <div className="flex flex-col w-full  md:w-1/2">
+      <div className="flex flex-col w-full md:w-1/2">
         <FileInput
           onFileSelect={(file) => {
             setErrors((prev) => ({ ...prev, image: undefined }));
             setImage(file.result as string);
           }}
           initialFileUrl={image || undefined}
-          label="Select Movie Image"
+          label={t("selectImageLabel")}
         />
         {errors.image && <p className="text-red-500">{errors.image}</p>}
       </div>
 
-      <div className="w-full  md:w-1/2 space-y-4">
+      <div className="w-full md:w-1/2 space-y-4">
         <InputField
           type="text"
           value={title}
@@ -106,7 +107,7 @@ const CreateUpdateMovie: React.FC<CreateUpdateMovieProps> = ({
               setErrors((prev) => ({ ...prev, title: undefined }));
             setTitle(e.target.value);
           }}
-          placeholder="Enter movie title"
+          placeholder={t("titlePlaceholder")}
           label="Title"
           error={errors.title}
         />
@@ -119,14 +120,14 @@ const CreateUpdateMovie: React.FC<CreateUpdateMovieProps> = ({
               setErrors((prev) => ({ ...prev, publishingYear: undefined }));
             setPublishingYear(e.target.value);
           }}
-          placeholder="Enter publishing year"
+          placeholder={t("publishingYearPlaceholder")}
           label="Publishing Year"
           error={errors.publishingYear}
         />
 
-        <div className="flex  space-x-4">
+        <div className="flex space-x-4">
           <Button variant="secondary" disabled={loading} className="text-sm">
-            Cancel
+            {t("cancel")}
           </Button>
           <Button
             type="submit"
@@ -135,7 +136,7 @@ const CreateUpdateMovie: React.FC<CreateUpdateMovieProps> = ({
             loading={loading}
             disabled={loading}
           >
-            {defaultData ? "Update" : "Create"}
+            {defaultData ? t("update") : t("create")}
           </Button>
         </div>
       </div>
