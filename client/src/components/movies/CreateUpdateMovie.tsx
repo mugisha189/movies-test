@@ -135,7 +135,7 @@ const CreateUpdateMovie: React.FC<CreateUpdateMovieProps> = ({
             loading={loading}
             disabled={loading}
           >
-            {defaultData ? "Update Movie" : "Create Movie"}
+            {defaultData ? "Update" : "Create"}
           </Button>
         </div>
       </div>

@@ -10,22 +10,30 @@ import { Movie } from "../../utils/types/movie";
 import Button from "../../components/core/button";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../hooks/useUser";
-
+import { useModal } from "../../hooks/useModal";
+import DeleteMovie from "../../components/movies/DeleteMovie";
 const Home: React.FC = () => {
   const { data: movies, loading, error, refetch } = useGet<Movie[]>("/movie");
   const navigate = useNavigate();
   const { logout } = useUser();
+  const { openModal } = useModal();
 
   return (
     <div className="p-10 text-white h-screen w-screen overflow-hidden overflow-y-auto">
       <div className="flex items-center justify-between mb-10">
         <div className="flex items-center gap-5">
           <p className="text-3xl font-bold">My Movies</p>
-          <IoAddCircleOutline onClick={() => navigate("/add")} className="w-7 h-7" />
+          <IoAddCircleOutline
+            onClick={() => navigate("/add")}
+            className="w-7 h-7 cursor-pointer"
+          />
         </div>
-        <div className="flex items-center gap-2">
+        <div
+          className="flex items-center gap-2 cursor-pointer"
+          onClick={logout}
+        >
           <p className="text-lg font-semibold">Logout</p>
-          <IoExitOutline onClick={logout}  className="w-8 h-8"/>
+          <IoExitOutline className="w-8 h-8" />
         </div>
       </div>
       {loading && (
@@ -37,10 +45,10 @@ const Home: React.FC = () => {
                 key={index}
                 className="bg-cardColor  p-2 rounded-2xl shadow animate-pulse"
               >
-                <div className="bg-gray-300 h-40 rounded-md"></div>
+                <div className="bg-inputColor h-72 rounded-2xl"></div>
                 <div className="mt-4">
-                  <div className="bg-gray-300 h-4 w-3/4 mb-2"></div>
-                  <div className="bg-gray-300 h-4 w-1/2"></div>
+                  <div className="bg-inputColor h-4 w-3/4 mb-2 rounded"></div>
+                  <div className="bg-inputColor h-4 w-1/2 rounded"></div>
                 </div>
               </div>
             ))}
@@ -85,7 +93,7 @@ const Home: React.FC = () => {
               <img
                 src={movie.image}
                 alt={movie.title}
-                className="w-full h-60 object-cover rounded-md"
+                className="w-full h-72 object-cover rounded-md"
               />
               <div className="mt-2 w-full">
                 <p className="text-lg font-semibold">{movie.title}</p>
@@ -96,15 +104,15 @@ const Home: React.FC = () => {
                   onClick={() => {
                     navigate(`/edit/${movie.id}`);
                   }}
-                  className="text-blue-500  p-2  border border-blue-500 rounded-full"
+                  className="text-blue-500  p-2  border border-blue-500 rounded-full cursor-pointer"
                 >
                   <FaEdit />
                 </button>
                 <button
                   onClick={() => {
-                    /* Logic to delete movie */
+                    openModal(<DeleteMovie movie={movie} onClose={refetch} />);
                   }}
-                  className="text-red-500  p-2  border border-red-500 rounded-full"
+                  className="text-red-500  p-2  border border-red-500 rounded-full cursor-pointer"
                 >
                   <FaTrash />
                 </button>

@@ -4,6 +4,7 @@ import Login from "./pages/auth/Login";
 import { useUser } from "./hooks/useUser";
 import images from "./utils/constants/image";
 import AddMovie from "./pages/app/AddMovie";
+import EditMovie from "./pages/app/EditMovie";
 
 function App() {
   const { user } = useUser();
@@ -16,6 +17,7 @@ function App() {
         >
           <Route path="/" element={<Home />} />
           <Route path="/add" element={<AddMovie />} />
+          <Route path="/edit/:id" element={<EditMovie />} />
         </Route>
 
         <Route
@@ -26,7 +28,7 @@ function App() {
       <img
         src={images.bottomVector}
         alt=""
-        className="absolute bottom-0 left-0 w-full"
+        className="absolute bottom-0 left-0 w-full z-0"
       />
     </div>
   );

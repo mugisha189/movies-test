@@ -18,8 +18,8 @@ const DeleteMovie: React.FC<{ movie: Movie; onClose: () => void }> = ({
       <div className="text-red-700">
         <MdDeleteOutline className="h-16 w-16" />
       </div>
-      <p className="text-xl text-center text-gray-600">Are you sure ?</p>
-      <p className="text-sm text-center text-gray-500 mt-2">
+      <p className="text-xl text-center">Are you sure ?</p>
+      <p className="text-sm text-center text-gray-100 mt-2">
         Deleting <span className="text-primary">{movie.title}</span> will remove
         all associated data and actions. This action cannot be undone. Please
         ensure you want to proceed.

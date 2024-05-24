@@ -1,7 +1,7 @@
 import React from "react";
 import CreateUpdateMovie from "../../components/movies/CreateUpdateMovie";
 
-const AddMovie = () => {
+const AddMovie: React.FC = () => {
   return (
     <div className="flex h-screen w-screen overflow-hidden items-center justify-center ">
       <div className="w-full px-[5vw] md:px-[7vw] lg:px-[10vw]">
