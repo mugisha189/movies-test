@@ -3,12 +3,7 @@ import React, { useState } from "react";
 import Button from "../../components/core/button";
 import { useUser } from "../../hooks/useUser";
 import InputField from "../../components/core/input";
-
-interface LoginFormValues {
-  email: string;
-  password: string;
-  rememberMe: boolean;
-}
+import { LoginFormValues } from "../../utils/types/forms";
 
 const Login: React.FC = () => {
   const { login } = useUser();
@@ -22,10 +17,7 @@ const Login: React.FC = () => {
   const validate = (values: LoginFormValues) => {
     const errors: Partial<LoginFormValues> = {};
 
-    // Email validation regex
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    // Password validation regex (example: at least 8 characters, 1 uppercase, 1 lowercase, 1 number, and 1 special character)
     const passwordRegex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 

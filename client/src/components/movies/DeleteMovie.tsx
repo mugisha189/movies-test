@@ -3,11 +3,11 @@ import React, { useState } from "react";
 import { MdDeleteOutline } from "react-icons/md";
 import Button from "../core/button";
 import { useModal } from "../../hooks/useModal";
-import { User } from "../../utils/types/user";
-import { deleteUser } from "../../utils/funcs/user";
+import { Movie } from "../../utils/types/movie";
+import { deleteMovie } from "../../utils/funcs/movie";
 
-const DeleteUser: React.FC<{ user: User; onClose: () => void }> = ({
-  user,
+const DeleteMovie: React.FC<{ movie: Movie; onClose: () => void }> = ({
+  movie,
   onClose,
 }) => {
   const { closeModal } = useModal();
@@ -20,7 +20,7 @@ const DeleteUser: React.FC<{ user: User; onClose: () => void }> = ({
       </div>
       <p className="text-xl text-center text-gray-600">Are you sure ?</p>
       <p className="text-sm text-center text-gray-500 mt-2">
-        Deleting <span className="text-primary">{user.name}</span> will remove
+        Deleting <span className="text-primary">{movie.title}</span> will remove
         all associated data and actions. This action cannot be undone. Please
         ensure you want to proceed.
       </p>
@@ -34,7 +34,7 @@ const DeleteUser: React.FC<{ user: User; onClose: () => void }> = ({
           className="text-sm"
           onClick={async () => {
             setLoading(true);
-            await deleteUser(user.id as any, onClose);
+            await deleteMovie(movie.id as any, onClose);
             setLoading(false);
           }}
         >
@@ -45,4 +45,4 @@ const DeleteUser: React.FC<{ user: User; onClose: () => void }> = ({
   );
 };
 
-export default DeleteUser;
+export default DeleteMovie;

@@ -1,27 +1,27 @@
-import { Routes, Route, Navigate } from "react-router-dom";
-import MainApp from "./components/layouts/MainAppLayout";
-import Dashboard from "./pages/app/Dashboard";
-import Users from "./pages/app/Users";
+import { Routes, Route, Navigate, Outlet } from "react-router-dom";
+import Home from "./pages/app/Home";
 import Login from "./pages/auth/Login";
 import { useUser } from "./hooks/useUser";
 import images from "./utils/constants/image";
+import AddMovie from "./pages/app/AddMovie";
 
 function App() {
   const { user } = useUser();
   return (
-    <div className="overflow-x-hidden bg-background h-screen">
+    <div className="overflow-x-hidden bg-background h-screen text-white">
       <Routes>
-        <Route path="/auth">
-          <Route path="/auth/" element={<Navigate to="/auth/login" />} />
-          <Route path="/auth/login" element={<Login />} />
-        </Route>
         <Route
           path="/"
-          element={!user ? <Navigate to="/auth/login" /> : <MainApp />}
+          element={!user ? <Navigate to={"/login"} /> : <Outlet />}
         >
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/users" element={<Users />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/add" element={<AddMovie />} />
         </Route>
+
+        <Route
+          path="/login"
+          element={user ? <Navigate to={"/"} /> : <Login />}
+        />
       </Routes>
       <img
         src={images.bottomVector}
