@@ -1,21 +1,17 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import AuthLayout from "./components/layouts/AuthLayout";
 import MainApp from "./components/layouts/MainAppLayout";
 import Dashboard from "./pages/app/Dashboard";
 import Users from "./pages/app/Users";
-import Categories from "./pages/app/Categories";
 import Login from "./pages/auth/Login";
 import { useUser } from "./hooks/useUser";
+import images from "./utils/constants/image";
 
 function App() {
   const { user } = useUser();
   return (
-    <div className="overflow-x-hidden">
+    <div className="overflow-x-hidden bg-background h-screen">
       <Routes>
-        <Route
-          path="/auth"
-          element={user ? <Navigate to="/" /> : <AuthLayout />}
-        >
+        <Route path="/auth">
           <Route path="/auth/" element={<Navigate to="/auth/login" />} />
           <Route path="/auth/login" element={<Login />} />
         </Route>
@@ -25,9 +21,13 @@ function App() {
         >
           <Route path="/" element={<Dashboard />} />
           <Route path="/users" element={<Users />} />
-          <Route path="/categories" element={<Categories />} />
         </Route>
       </Routes>
+      <img
+        src={images.bottomVector}
+        alt=""
+        className="absolute bottom-0 left-0 w-full"
+      />
     </div>
   );
 }

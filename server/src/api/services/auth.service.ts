@@ -1,8 +1,7 @@
-import { User } from "../models";
+import bcrypt from "bcryptjs";
+import User from "../models/User";
 import APIError from "../helpers/APIError";
 import status from "http-status";
-import bcrypt from "bcryptjs";
-import config from "../../config/config";
 import { NewUser } from "../interfaces/User";
 import {
   Payload,
@@ -19,20 +18,23 @@ const login = async ({
   email: string;
   password: string;
 }) => {
-  const user = await User.findOne({ where: { email } });
+  // Find the user by email
+  const user = await User.findOne({ email });
   if (!user) throw new APIError(status.UNAUTHORIZED, "User does not exist");
 
+  // Check if the password is correct
   const isValidPassword = await bcrypt.compare(password, user.password);
   if (!isValidPassword)
     throw new APIError(status.UNAUTHORIZED, "Incorrect password");
 
+  // Generate access and refresh tokens
   return {
     accessToken: createAccessToken({
-      id: user.id.toString(),
+      id: user._id.toString(),
       email: user.email,
     }),
     refreshToken: createRefreshToken({
-      id: user.id.toString(),
+      id: user._id.toString(),
       email: user.email,
     }),
     user: user,
@@ -40,8 +42,11 @@ const login = async ({
 };
 
 const refreshToken = async (token: string) => {
+  // Verify the provided token
   const user = verifyAuthToken(token) as Payload;
   if (!user) throw new APIError(status.UNAUTHORIZED, "Unauthorized");
+
+  // Generate new access and refresh tokens
   return {
     accessToken: createAccessToken({
       id: user.id.toString(),
@@ -55,14 +60,17 @@ const refreshToken = async (token: string) => {
 };
 
 const register = async (body: NewUser) => {
+  // Create a new user
   const user = await userService.createUser(body);
+
+  // Generate access and refresh tokens
   return {
     accessToken: createAccessToken({
-      id: user.id.toString(),
+      id: user._id.toString(),
       email: user.email,
     }),
     refreshToken: createRefreshToken({
-      id: user.id.toString(),
+      id: user._id.toString(),
       email: user.email,
     }),
     user: user,

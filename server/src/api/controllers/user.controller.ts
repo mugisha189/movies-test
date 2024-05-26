@@ -21,7 +21,7 @@ const createUser = async (req: Request, res: Response, next: NextFunction) => {
 
 const getUserById = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const user = await userService.getUserById(parseInt(req.params.id));
+    const user = await userService.getUserById(req.params.id);
     if (!user) throw new APIError(status.NOT_FOUND, "User not found");
     res.json(user);
   } catch (err) {
@@ -52,7 +52,7 @@ const updateUser = async (req: Request, res: Response, next: NextFunction) => {
     }
     console.log(updatedUser)
     const user = await userService.updateUser(
-      parseInt(req.params.id),
+      req.params.id,
       updatedUser
     );
     if (!user) throw new APIError(status.NOT_FOUND, "User not found");
@@ -64,7 +64,7 @@ const updateUser = async (req: Request, res: Response, next: NextFunction) => {
 
 const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    await userService.deleteUser(parseInt(req.params.id));
+    await userService.deleteUser(req.params.id);
     res.status(status.NO_CONTENT).end();
   } catch (err) {
     next(err);

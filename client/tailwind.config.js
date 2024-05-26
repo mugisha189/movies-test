@@ -4,20 +4,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Normal colors
-        transparent: "transparent",
-        current: "currentColor",
-        black: "#000",
-        white: "#fff",
-        primary: "#B05AAD",
-        secondary: "#FFFFFF26",
-        background: "#FFFFFF",
-        background2: "#F8F9FA",
-        myBlue: "#005AD133",
-        myRed: "#F2444433",
-        tertiary: {
-          DEFAULT: "YOUR_TERTIARY_COLOR_HEX",
-        },
+        primary: "#2BD17E",
+        error: "#EB5757",
+        background: "#093545",
+        inputColor: "#224957",
+        cardColor: "#092C39",
       },
     },
   },

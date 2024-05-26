@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useRef } from "react";
-import { EditIcon } from "./icons";
+import { AiFillEdit } from "react-icons/ai";
 
 interface AvatarInputProps {
   value?: string | null;
@@ -54,7 +54,7 @@ const AvatarInput: React.FC<AvatarInputProps> = ({
               onClick={() => handleButtonClick()}
               className={`absolute bottom-2 right-0 bg-background p-2 rounded-full border z-20 border-gray-600 `}
             >
-              <EditIcon />
+              <AiFillEdit />
             </button>
           </div>
         </div>

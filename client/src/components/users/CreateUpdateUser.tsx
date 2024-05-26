@@ -5,7 +5,7 @@ import Button from "../core/button";
 import { User } from "../../utils/types/user";
 import { toast } from "react-toastify";
 import { createUser, updateUser } from "../../utils/funcs/user";
-import { AvatarIcon } from "../core/icons";
+import { FaRegUserCircle } from "react-icons/fa";
 
 interface CreateUpdateUserProps {
   defaultData?: User | null;
@@ -111,7 +111,7 @@ const CreateUpdateUser: React.FC<CreateUpdateUserProps> = ({
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="flex flex-col items-center">
           <AvatarInput
-            noDataChild={<AvatarIcon className="w-20 h-20" />}
+            noDataChild={<FaRegUserCircle className="w-20 h-20" />}
             value={photo}
             onChange={(value) => {
               errors.photo && setErrors((prev) => ({ ...prev, photo: null }));

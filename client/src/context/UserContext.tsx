@@ -11,7 +11,11 @@ export interface UserContextProps {
   setUser: (user: User | null) => void;
   updateUser: () => void;
   logout: () => void;
-  login: (values: { email: string; password: string }) => Promise<void>;
+  login: (values: {
+    email: string;
+    password: string;
+    rememberMe: boolean;
+  }) => Promise<void>;
 }
 
 export const UserContext = createContext<UserContextProps | undefined>(
@@ -94,12 +98,25 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     }
   };
 
-  const login = async (values: { email: string; password: string }) => {
+  const login = async (values: {
+    email: string;
+    password: string;
+    rememberMe: boolean;
+  }) => {
     try {
-      const response = await unauthorizedApi.post("/auth/login", values);
-      Cookies.set("accessToken", response.data.accessToken, { expires: 1 });
-      Cookies.set("refreshToken", response.data.refreshToken, { expires: 1 });
-      Cookies.set("user", JSON.stringify(response.data.user), { expires: 1 });
+      const response = await unauthorizedApi.post("/auth/login", {
+        email: values.email,
+        password: values.password,
+      });
+      Cookies.set("accessToken", response.data.accessToken, {
+        expires: values.rememberMe ? 365 : 1,
+      });
+      Cookies.set("refreshToken", response.data.refreshToken, {
+        expires: values.rememberMe ? 365 : 1,
+      });
+      Cookies.set("user", JSON.stringify(response.data.user), {
+        expires: values.rememberMe ? 365 : 1,
+      });
       setUser(response.data.user);
       navigate("/");
     } catch (error: any) {

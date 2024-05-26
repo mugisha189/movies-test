@@ -1,32 +1,46 @@
-import sequelize from "../db";
-import { User } from "../models";
-import bcrypt from "bcryptjs";
-import config from "../../config/config";
+// seed.ts
 
-const seedData = async () => {
+import mongoose from "mongoose";
+import config from "../../config/config";
+import User from "../models/User";
+import bcrypt from "bcryptjs";
+
+// Connect to MongoDB
+mongoose
+  .connect(config.MONGODB_URI)
+  .then(() => {
+    console.log("Connected to MongoDB");
+    seedUser();
+  })
+  .catch((err) => {
+    console.error("MongoDB connection error:", err);
+  });
+
+const seedUser = async () => {
   try {
-    await sequelize.authenticate();
-    await sequelize.sync({ force: false });
-    const passwordHash = await bcrypt.hash("Admin123", config.BCRYPT_SALT);
-    const adminUser = await User.create({
-      name: "Admin",
-      surname: "User",
-      birthdate: new Date(),
-      sex: "Male",
-      role: "ADMIN",
-      email: "admin@app.com",
-      password: passwordHash,
+    const userEmail = "user@gmail.com";
+    const userPassword = "User@12345";
+
+    // Check if the user already exists
+    const existingUser = await User.findOne({ email: userEmail });
+    if (existingUser) {
+      console.log(`User already exists: ${userEmail}`);
+      return;
+    }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(userPassword, 10);
+
+    // Create and save the new user
+    const newUser = new User({
+      email: userEmail,
+      password: hashedPassword,
     });
-    console.log(`Admin user created: ${adminUser.email}`);
-    console.log("Data seeding completed");
+    await newUser.save();
+    console.log(`Inserted user: ${userEmail}`);
   } catch (err) {
-    console.error("Error seeding data:", err);
+    console.error("Error seeding user data:", err);
   } finally {
-    await sequelize.close();
+    mongoose.connection.close();
   }
 };
-
-seedData();
-
-
-

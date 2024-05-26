@@ -1,6 +1,5 @@
-
 import React from "react";
-import { CloseIcon } from "./icons";
+import { IoCloseCircle } from "react-icons/io5";
 import { useModal } from "../../hooks/useModal";
 
 const Modal: React.FC = () => {
@@ -21,7 +20,7 @@ const Modal: React.FC = () => {
           className="absolute right-2 top-2  rounded-full p-1 bg-background  "
           onClick={closeModal}
         >
-          <CloseIcon />
+          <IoCloseCircle />
         </button>
         <div className="">{modalContent}</div>
       </div>
