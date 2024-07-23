@@ -1,0 +1,22 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "Adminal Panel Haito",
+            "database": "admin_panel",
+            "username": "root",
+            "password": "food"
+        }
+    ],
+    "cSpell.words": [
+        "birthdate",
+        "Cloudinary"
+    ]
+}
