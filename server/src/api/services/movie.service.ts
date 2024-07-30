@@ -21,8 +21,11 @@ const getMovieById = (id: string) => {
   return Movie.findById(id);
 };
 
-const getAllMovies = () => {
-  return Movie.find();
+const getAllMovies = async (page: number, limit: number) => {
+  const skip = (page - 1) * limit;
+  const count = await Movie.countDocuments();
+  const items = await Movie.find().skip(skip).limit(limit).exec();
+  return { numberOfItems: count, items };
 };
 
 const updateMovie = async (

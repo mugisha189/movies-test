@@ -38,17 +38,24 @@ const getMovieById = async (
 };
 
 const getAllMovies = async (
-  _req: Request,
+  req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const movies = await movieService.getAllMovies();
+    const { page = 1, limit = 10 } = req.query;
+    const pageNumber = parseInt(page as string, 10);
+    const limitNumber = parseInt(limit as string, 10);
+    if (isNaN(pageNumber) || pageNumber <= 0 || isNaN(limitNumber) || limitNumber <= 0) {
+      return res.status(400).json({ error: "Invalid pagination parameters" });
+    }
+    const movies = await movieService.getAllMovies(pageNumber, limitNumber);
     res.json(movies);
   } catch (err) {
     next(err);
   }
 };
+
 
 const updateMovie = async (req: Request, res: Response, next: NextFunction) => {
   try {

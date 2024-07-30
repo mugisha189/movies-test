@@ -112,30 +112,59 @@ router.get(
  * /movies:
  *   get:
  *     summary: Get all movies
- *     description: Retrieves a list of all movies.
+ *     description: Retrieves a paginated list of all movies.
+ *     parameters:
+ *       - name: page
+ *         in: query
+ *         required: false
+ *         description: Page number to retrieve
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *       - name: limit
+ *         in: query
+ *         required: false
+ *         description: Number of movies to return per page
+ *         schema:
+ *           type: integer
+ *           default: 10
  *     responses:
  *       200:
  *         description: List of movies
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: string
- *                     description: Movie ID
- *                   title:
- *                     type: string
- *                     description: Movie title
- *                   image:
- *                     type: string
- *                     format: uri
- *                     description: URL of the movie image
- *                   publishingYear:
- *                     type: string
- *                     description: Year the movie was published
+ *               type: object
+ *               properties:
+ *                 total:
+ *                   type: integer
+ *                   description: Total number of movies
+ *                 page:
+ *                   type: integer
+ *                   description: Current page number
+ *                 limit:
+ *                   type: integer
+ *                   description: Number of movies per page
+ *                 movies:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                         description: Movie ID
+ *                       title:
+ *                         type: string
+ *                         description: Movie title
+ *                       image:
+ *                         type: string
+ *                         format: uri
+ *                         description: URL of the movie image
+ *                       publishingYear:
+ *                         type: string
+ *                         description: Year the movie was published
+ *       400:
+ *         description: Invalid pagination parameters
  *       500:
  *         description: Internal server error
  *     tags:

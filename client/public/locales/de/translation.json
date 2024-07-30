@@ -34,6 +34,8 @@
     "update": "Aktualisieren",
     "deleteConfirmation": "Sind Sie sicher?",
     "deleteMessage": "Das Löschen von {{movieTitle}} entfernt alle zugehörigen Daten und Aktionen. Diese Aktion kann nicht rückgängig gemacht werden. Bitte stellen Sie sicher, dass Sie fortfahren möchten.",
-    "delete": "Löschen"
+    "delete": "Löschen",
+        "prev": "Zurück",
+    "next": "Weiter"
   }
   

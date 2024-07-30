@@ -34,5 +34,7 @@
   "update": "Actualizar",
   "deleteConfirmation": "¿Estás seguro?",
   "deleteMessage": "Eliminar {{movieTitle}} eliminará todos los datos y acciones asociados. Esta acción no se puede deshacer. Asegúrate de que deseas continuar.",
-  "delete": "Eliminar"
+  "delete": "Eliminar",
+  "prev": "Anterior",
+  "next": "Siguiente"
 }

@@ -126,7 +126,11 @@ const CreateUpdateMovie: React.FC<CreateUpdateMovieProps> = ({
         />
 
         <div className="flex space-x-4">
-          <Button variant="secondary" disabled={loading} className="text-sm">
+          <Button
+            variant="secondary"
+            onClick={() => navigate("/")}
+            className="text-sm"
+          >
             {t("cancel")}
           </Button>
           <Button

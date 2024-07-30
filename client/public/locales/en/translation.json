@@ -34,5 +34,8 @@
   "update": "Update",
   "deleteConfirmation": "Are you sure?",
   "deleteMessage": "Deleting {{movieTitle}} will remove all associated data and actions. This action cannot be undone. Please ensure you want to proceed.",
-  "delete": "Delete"
+  "delete": "Delete",
+  "prev": "Prev",
+  "next": "Next"
+
 }

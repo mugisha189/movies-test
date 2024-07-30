@@ -18,7 +18,7 @@ i18n
     },
     ns: ["translation"],
     defaultNS: "translation",
-    supportedLngs: ["en", "es", "fr", "de", "it", "pt", "ru", "zh", "ja", "ko"],
+    supportedLngs: ["en", "es", "fr", "de", "it"],
   });
 
 export default i18n;
